@@ -120,8 +120,6 @@ public class TMDataService {
         System.out.println(sb.toString());
 
 
-
-        String oldHour = "00";
         ArrayList <TMData> tmDataset = null;
         ArrayList <String> time = new ArrayList();
 
@@ -150,15 +148,8 @@ public class TMDataService {
                 String dateTime = rs.getString("T");
                 int b = dateTime.indexOf(':');
                 int a = b-2;
-                String hour = dateTime.substring(a, b);
-
-
-                if(hour.equals(oldHour)){
-                    time.add("");
-                }else{
-                    time.add(hour);
-                    oldHour = hour;
-                }
+                String hour = dateTime.substring(a, b+3);
+                time.add(hour);
             }
         } catch (Exception e) {
             e.printStackTrace();

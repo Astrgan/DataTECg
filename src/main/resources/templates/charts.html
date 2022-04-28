@@ -50,7 +50,7 @@ The above copyright notice and this permission notice shall be included in all c
 <!--                <a href="https://gionkunz.github.io/chartist-js/getting-started.html" target="_blank">full documentation.</a>-->
 <!--              </p>-->
 <!--            </div>-->
-            <div class="row">
+            <div class="row main-chart-container">
               <div th:each="data: ${tmDataset}" class="col-md-12">
                 <div th:insert="~{fragments\card :: fragmenCard(id=${data.chartId}, HM=${data.HM}, name=${data.name})}"/>
               </div>
@@ -165,6 +165,7 @@ The above copyright notice and this permission notice shall be included in all c
   </div>
   <!--   Core JS Files   -->
   <script src="/assets/js/core/jquery.min.js"></script>
+  <script src="/assets/js/core/chart.min.js"></script>
   <script src="/assets/js/core/popper.min.js"></script>
   <script src="/assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -208,55 +209,64 @@ The above copyright notice and this permission notice shall be included in all c
 
   <script th:inline="javascript">
     $(document).ready(function() {
-      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+
+      let el = document.getElementsByClassName('chart-container');
+      let size = el.length;
+      for (let i = 0; i < size; i++) {
+        el[i].style.height= (size<6 ? 400/(size*0.5) : 400/(size*0.6)) +'px';
+      }
       for (const data of [[${tmDataset}]]) {
         initCharts(data.chartId, data.val, [[${time}]]);
       }
     });
 
+
     function initCharts(id, val, time) {
-      let size = document.getElementsByClassName('card').length;
-      dataColouredRoundedLineChart = {
-        labels:  time,
-        series: [
-          val
-        ]
+      const labels = time;
+
+      const data = {
+        labels: labels,
+        datasets: [{
+          // label: 'My First dataset',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: val,
+          pointRadius: 0,
+        }]
       };
 
-      optionsColouredRoundedLineChart = {
-        lineSmooth: Chartist.Interpolation.cardinal({
-          tension: 10
-        }),
-        axisY: {
-          type: Chartist.FixedScaleAxis,
-          showGrid: true,
-          offset: 40
-        },
-        axisX: {
-          showGrid: false,
-        },
-        low: 0,
-        high: 50,
-        showPoint: true,
-        // height: '130px',
-        height: (size<6 ? 330/(size*0.5) : 330/(size*0.6))+'px',
-        // scales: {
-        //   yAxes: [{
-        //     ticks: {
-        //       min: Math.min.apply(this, val) - 5,
-        //       max: Math.max.apply(this, val) + 5,
-        //       stepSize: 5
-        //     }
-        //   }]
-        // },
-        plugins: [
-          Chartist.plugins.tooltip()
-        ]
+      const config = {
+        type: 'line',
+        data: data,
+        options: {
+          maintainAspectRatio: false,
+          responsive: true,
+          interaction: {
+            intersect: false,
+            mode: 'index',
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+            title: {
+              display: false,
+              text: (ctx) => 'Tooltip position mode: ' + ctx.chart.options.plugins.tooltip.position,
+            },
+          }
+        }
       };
-      var colouredRoundedLineChart = new Chartist.Line('#'+id, dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
-      //md.startAnimationForLineChart(colouredRoundedLineChart);
+
+      const myChart = new Chart(
+              document.getElementById(id),
+              config
+      );
+
+
+
     }
   </script>
+
 </body>
 
 </html>

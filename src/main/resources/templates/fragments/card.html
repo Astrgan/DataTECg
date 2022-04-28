@@ -8,8 +8,10 @@
             <small th:text="@{' - '+${name}}"></small>
         </h4>
     </div>
-    <div class="card-body">
-        <div th:id="${id}" class="ct-chart"></div>
+    <div class="card-body chart-container">
+<!--        <div th:id="${id}" class="ct-chart"></div>-->
+
+        <canvas th:id="${id}"></canvas>
     </div>
 </th:div>
 
