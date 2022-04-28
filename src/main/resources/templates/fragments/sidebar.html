@@ -1,0 +1,90 @@
+<style>
+    .my-btn {
+    }
+</style>
+<th:div th:fragment="fragmenSidebar()" class="sidebar" data-color="rose" data-background-color="black" data-image="/assets/img/sidebar-1.jpg">
+    <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+    <div class="logo"><a href="#" class="simple-text logo-mini">
+<!--        КТЭЦ-2-->
+    </a>
+<!--        <button class="btn btn-success my-btn" id="minimizeSidebar2">Свирнуть<div class="ripple-container"></div></button>-->
+        <a class="simple-text logo-normal">
+            <button type="submit" form="form_tec" class="btn btn-success my-btn">Отправить<div class="ripple-container"></div></button>
+        </a></div>
+    <div class="sidebar-wrapper">
+<!--        <div class="user">-->
+<!--            <div class="photo">-->
+<!--                <img src="/assets/img/faces/avatar.jpg" />-->
+<!--            </div>-->
+<!--            <div class="user-info">-->
+<!--                <a data-toggle="collapse" href="#collapseExample" class="username">-->
+<!--              <span>-->
+<!--                Tania Andrew-->
+<!--                <b class="caret"></b>-->
+<!--              </span>-->
+<!--                </a>-->
+<!--                <div class="collapse" id="collapseExample">-->
+<!--                    <ul class="nav">-->
+<!--                        -->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="#">-->
+<!--                                <span class="sidebar-mini"> MP </span>-->
+<!--                                <span class="sidebar-normal"> My Profile </span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="#">-->
+<!--                                <span class="sidebar-mini"> EP </span>-->
+<!--                                <span class="sidebar-normal"> Edit Profile </span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="#">-->
+<!--                                <span class="sidebar-mini"> S </span>-->
+<!--                                <span class="sidebar-normal"> Settings </span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <ul class="nav">
+
+            <form action="/" method="get" id="form_tec">
+                <li class="nav-item active">
+
+                </li>
+                <li th:each="HM: ${HMs}" class="nav-item ">
+                    <a class="nav-link" data-toggle="collapse" th:href="@{'#'+${HM.toArray()[0].code}}">
+                        <i class="material-icons">image</i>
+                        <p> <span th:text="${HM.toArray()[0].hm}"> </span>
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse" th:id="${HM.toArray()[0].code}">
+                        <ul class="nav">
+                            <li th:each="paramHM: ${HM}" class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <input type="checkbox" th:id="${paramHM}" th:name="${paramHM}">
+                                    <span class="sidebar-mini"> PП </span>
+                                    <label th:for="${paramHM}">
+                                        <span class="sidebar-normal" th:text="${paramHM.getName()}"> </span>
+                                    </label>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
+            </form>
+
+
+        </ul>
+    </div>
+    <div class="sidebar-background"></div>
+</th:div>
