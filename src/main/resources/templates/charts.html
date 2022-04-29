@@ -10,7 +10,7 @@ Coded by Creative Tim
 =========================================================
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="utf-8" />
@@ -43,13 +43,7 @@ The above copyright notice and this permission notice shall be included in all c
       <div class="content">
         <div class="container-fluid">
           <div class="container-fluid">
-<!--            <div class="header text-center">-->
-<!--              <h3 class="title">Chartist.js</h3>-->
-<!--              <p class="category">Handcrafted by our friends from-->
-<!--                <a target="_blank" href="https://gionkunz.github.io/chartist-js/">Chartist.js</a>. Please checkout their-->
-<!--                <a href="https://gionkunz.github.io/chartist-js/getting-started.html" target="_blank">full documentation.</a>-->
-<!--              </p>-->
-<!--            </div>-->
+
             <div class="row main-chart-container">
               <div th:each="data: ${tmDataset}" class="col-md-12">
                 <div th:insert="~{fragments\card :: fragmenCard(id=${data.chartId}, HM=${data.HM}, name=${data.name})}"/>
@@ -170,7 +164,7 @@ The above copyright notice and this permission notice shall be included in all c
   <script src="/assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
   <!-- Plugin for the momentJs  -->
-  <script src="/assets/js/plugins/moment.min.js"></script>
+  <script src="/assets/js/plugins/moment-with-locales.js"></script>
   <!--  Plugin for Sweet Alert -->
   <script src="/assets/js/plugins/sweetalert2.js"></script>
   <!-- Forms Validations Plugin -->
@@ -220,6 +214,8 @@ The above copyright notice and this permission notice shall be included in all c
       }
     });
 
+    // initialise Datetimepicker and Sliders
+    md.initFormExtendedDatetimepickers();
 
     function initCharts(id, val, time) {
       const labels = time;
@@ -261,9 +257,6 @@ The above copyright notice and this permission notice shall be included in all c
               document.getElementById(id),
               config
       );
-
-
-
     }
   </script>
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.dgk.DataTECg.repositorys.TMRepository;
 import ru.dgk.DataTECg.services.TMDataService;
 
+import  java.time.LocalDate;
 import java.util.Map;
 
 
@@ -22,11 +23,12 @@ public class MainController {
     }
 
     @GetMapping(path = "/")
-    public String mainPage(Model model, @RequestParam Map<String,String> allParams) {
+    public String mainPage(Model model, @RequestParam(required = false) String date, @RequestParam Map<String,String> allParams) {
+        System.out.println("date param:"+date);
         System.out.println(allParams);
-        if(allParams.size()!=0){
+        if(allParams.size()>1){
             allParams.keySet().forEach(k -> System.out.println((k + ":" + allParams.get(k))));
-            model.addAllAttributes(tmDataService.getDatasets(allParams));
+            model.addAllAttributes(tmDataService.getDatasets(date, allParams));
         }
 
         model.addAttribute("HMs", tmDataService.getHM());

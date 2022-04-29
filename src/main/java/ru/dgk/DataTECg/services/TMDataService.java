@@ -67,25 +67,24 @@ public class TMDataService {
         return list;
     }
 
-    public Map<String, ?> getDatasets(Map<String,String> params) {
-
+    public Map<String, ?> getDatasets(String date, Map<String, String> params) {
         Map<String, Object> attributes = new HashMap();
         StringBuffer sb = new StringBuffer();
         var paramArray = params.keySet().toArray();
-        var firstID = IDs.valueOf((String) paramArray[0]).id;
+        var firstID = IDs.valueOf((String) paramArray[1]).id;
 
         sb.append("SELECT  FROM_DT1970(EL010_");
         sb.append(firstID);
         sb.append(".time1970) as t");
 
 
-        for (var param : paramArray) {
+        for (int i = 1; i < paramArray.length; i++) {
             sb.append(", ");
             sb.append("EL010_");
-            sb.append(IDs.valueOf((String) param).id);
+            sb.append(IDs.valueOf((String) paramArray[i]).id);
             sb.append(".VAL");
             sb.append(" as ");
-            sb.append(IDs.valueOf((String) param));
+            sb.append(IDs.valueOf((String) paramArray[i]));
         }
 
 
@@ -94,7 +93,7 @@ public class TMDataService {
         sb.append(" EL010_");
         sb.append(firstID);
 
-        for (int i = 1; i < paramArray.length; i++) {
+        for (int i = 2; i < paramArray.length; i++) {
             String id = IDs.valueOf((String) paramArray[i]).id;
 
             sb.append(" FULL OUTER JOIN RSDU2ELARH.EL010_");
@@ -111,10 +110,14 @@ public class TMDataService {
 
         sb.append(" WHERE EL010_");
         sb.append(firstID);
-        sb.append(".time1970 > TO_DT1970(TO_DATE ('2022-03-23 0:00:00', 'YYYY-MM-DD HH24:MI:SS'))");
+        sb.append(".time1970 > TO_DT1970(TO_DATE ('");
+        sb.append(date);
+        sb.append(" 0:00:00', 'DD.MM.YYYY HH24:MI:SS'))");
         sb.append("AND EL010_");
         sb.append(firstID);
-        sb.append(".time1970 < TO_DT1970(TO_DATE ('2022-03-23 23:00:00', 'YYYY-MM-DD HH24:MI:SS'))");
+        sb.append(".time1970 < TO_DT1970(TO_DATE ('");
+        sb.append(date);
+        sb.append(" 23:00:00', 'DD.MM.YYYY HH24:MI:SS'))");
         sb.append("ORDER BY t");
 
         System.out.println(sb.toString());

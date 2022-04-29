@@ -16804,48 +16804,7 @@ thead.thead-inverse th,
   margin-top: 0;
 }
 
-.card [class*="card-header-"] .ct-chart .card-title {
-  color: #fff;
-}
 
-.card [class*="card-header-"] .ct-chart .card-category {
-  margin-bottom: 0;
-  color: rgba(255, 255, 255, 0.62);
-}
-
-.card [class*="card-header-"] .ct-chart .ct-label {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.card [class*="card-header-"] .ct-chart .ct-grid {
-  stroke: rgba(255, 255, 255, 0.2);
-}
-
-.card [class*="card-header-"] .ct-chart .ct-series-a .ct-bar,
-.card [class*="card-header-"] .ct-chart .ct-series-a .ct-line,
-.card [class*="card-header-"] .ct-chart .ct-series-a .ct-point,
-.card [class*="card-header-"] .ct-chart .ct-series-a .ct-slice-donut {
-  stroke: rgba(255, 255, 255, 0.8);
-}
-
-.card [class*="card-header-"] .ct-chart .ct-series-a .ct-area,
-.card [class*="card-header-"] .ct-chart .ct-series-a .ct-slice-pie {
-  fill: rgba(255, 255, 255, 0.4);
-}
-
-.card [class*="card-header-"] .ct-chart .ct-series-a .ct-bar {
-  stroke-width: 10px;
-}
-
-.card [class*="card-header-"] .ct-chart .ct-point {
-  stroke-width: 10px;
-  stroke-linecap: round;
-}
-
-.card [class*="card-header-"] .ct-chart .ct-line {
-  fill: none;
-  stroke-width: 4px;
-}
 
 .card [data-header-animation="true"] {
   -webkit-transform: translate3d(0, 0, 0);
@@ -27964,94 +27923,6 @@ be a descendant of the grid when it is being dragged.
   margin-top: -6px;
 }
 
-.ct-chart .ct-series-a .ct-point,
-.ct-chart .ct-series-a .ct-line,
-.ct-chart .ct-series-a .ct-bar,
-.ct-chart .ct-series-a .ct-slice-donut,
-.ct-chart .ct-series-a .ct-slice-pie,
-.ct-chart .ct-series-a .ct-slice-donut-solid,
-.ct-chart .ct-series-a .ct-area {
-  stroke: #00bcd4;
-}
-
-.ct-chart .ct-series-b .ct-point,
-.ct-chart .ct-series-b .ct-line,
-.ct-chart .ct-series-b .ct-bar,
-.ct-chart .ct-series-b .ct-slice-donut,
-.ct-chart .ct-series-b .ct-slice-pie,
-.ct-chart .ct-series-b .ct-slice-donut-solid,
-.ct-chart .ct-series-b .ct-area {
-  stroke: #f44336;
-}
-
-.ct-chart .ct-series-c .ct-point,
-.ct-chart .ct-series-c .ct-line,
-.ct-chart .ct-series-c .ct-bar,
-.ct-chart .ct-series-c .ct-slice-donut,
-.ct-chart .ct-series-c .ct-slice-pie,
-.ct-chart .ct-series-c .ct-slice-donut-solid,
-.ct-chart .ct-series-c .ct-area {
-  stroke: #ff9800;
-}
-
-.ct-chart .ct-bar {
-  fill: none;
-  stroke-width: 10px;
-}
-
-.ct-chart .ct-line {
-  fill: none;
-  stroke-width: 4px;
-}
-
-.ct-chart .ct-point {
-  stroke-width: 10px;
-  stroke-linecap: round;
-}
-
-.ct-chart .ct-grid {
-  stroke: rgba(0, 0, 0, 0.2);
-  stroke-width: 1px;
-  stroke-dasharray: 2px;
-}
-
-.ct-chart .ct-label {
-  fill: rgba(0, 0, 0, 0.4);
-  color: rgba(0, 0, 0, 0.4);
-  display: -webkit-flex;
-  display: flex;
-}
-
-.ct-chart .ct-label.ct-vertical.ct-start {
-  -webkit-box-align: flex-end;
-  -webkit-align-items: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  -webkit-box-pack: flex-end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: flex-end;
-  justify-content: flex-end;
-  text-align: right;
-  text-anchor: end;
-}
-
-.ct-chart .ct-series-a .ct-slice-pie,
-.ct-chart .ct-series-a .ct-slice-donut-solid,
-.ct-chart .ct-series-a .ct-area {
-  fill: #00bcd4;
-}
-
-.ct-chart .ct-series-b .ct-slice-pie,
-.ct-chart .ct-series-b .ct-slice-donut-solid,
-.ct-chart .ct-series-b .ct-area {
-  fill: #f44336;
-}
-
-.ct-chart .ct-series-c .ct-slice-pie,
-.ct-chart .ct-series-c .ct-slice-donut-solid,
-.ct-chart .ct-series-c .ct-area {
-  fill: #ff9800;
-}
 
 /*!
  * Bootstrap-select v1.13.1 (https://developer.snapappointments.com/bootstrap-select)
@@ -30220,16 +30091,7 @@ select.selectpicker {
     margin: 0;
   }
 }
-/*Диаметр точки*/
-.ct-chart .ct-point{
-  stroke-width: 3px;
-  /*padding: 4px;*/
-  stroke: red;
-}
-/*Толщина линии*/
-.ct-series-a .ct-line {
-  stroke-width: 2px;
-}
+
 
 .main-chart-container{
 
@@ -30238,7 +30100,19 @@ select.selectpicker {
   hight:400px;
 }
 
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  width: auto;
+}
 
+.timepicker-picker table td a span,
+.timepicker-picker table td,
+.timepicker-picker table td span {
+  height: 20px !important;
+  line-height: 20px !important;
+  vertical-align: middle;
+  width: 30px !important;
+  padding: 0px !important;
+}
 
 @media (min-width: 992px) {
   .main-panel .navbar .navbar-collapse .navbar-nav .nav-item .nav-link p {
