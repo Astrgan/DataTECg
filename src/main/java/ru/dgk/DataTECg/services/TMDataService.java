@@ -87,7 +87,6 @@ public class TMDataService {
             sb.append(IDs.valueOf((String) paramArray[i]));
         }
 
-
         sb.append(" FROM RSDU2ELARH.EL010_");
         sb.append(firstID);
         sb.append(" EL010_");
@@ -95,7 +94,6 @@ public class TMDataService {
 
         for (int i = 2; i < paramArray.length; i++) {
             String id = IDs.valueOf((String) paramArray[i]).id;
-
             sb.append(" FULL OUTER JOIN RSDU2ELARH.EL010_");
             sb.append(id);
             sb.append(" EL010_");
@@ -121,7 +119,6 @@ public class TMDataService {
         sb.append("ORDER BY t");
 
         System.out.println(sb.toString());
-
 
         ArrayList <TMData> tmDataset = null;
         ArrayList <String> time = new ArrayList();

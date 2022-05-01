@@ -1,16 +1,5 @@
-<!--
-=========================================================
-Material Dashboard PRO - v2.2.2
-=========================================================
-
-Product Page: https://www.creative-tim.com/product/material-dashboard-pro
-Copyright 2020 Creative Tim (https://www.creative-tim.com)
-Coded by Creative Tim
-
-=========================================================
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://thymeleaf.org">
 
 <head>
   <meta charset="utf-8" />
@@ -44,14 +33,14 @@ The above copyright notice and this permission notice shall be included in all c
         <div class="container-fluid">
           <div class="container-fluid">
 
-            <div class="row main-chart-container">
-              <div th:each="data: ${tmDataset}" class="col-md-12">
-                <div th:insert="~{fragments\card :: fragmenCard(id=${data.chartId}, HM=${data.HM}, name=${data.name})}"/>
+            <div class="main-chart-container">
+              <div th:each="data: ${tmDataset}" class="chart-card">
+                <canvas th:id="${data.chartId}"></canvas>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </div> <!--container-fluid-->
+        </div> <!--container-fluid-->
+      </div> <!--content-->
 <!--      <div th:insert="~{fragments\footer :: fragmentFooter}"/>-->
     </div>
   </div>
@@ -202,35 +191,88 @@ The above copyright notice and this permission notice shall be included in all c
   <script src="/assets/js/script.js"></script>
 
   <script th:inline="javascript">
+    let ac = [];
+    let clickFlag = false;
+    let yAxis, x, clickIndex;
     $(document).ready(function() {
-
-      let el = document.getElementsByClassName('chart-container');
-      let size = el.length;
-      for (let i = 0; i < size; i++) {
-        el[i].style.height= (size<6 ? 400/(size*0.5) : 400/(size*0.6)) +'px';
-      }
       for (const data of [[${tmDataset}]]) {
-        initCharts(data.chartId, data.val, [[${time}]]);
+        initCharts(data, [[${time}]]);
       }
     });
 
-    // initialise Datetimepicker and Sliders
+    // initialise Datetimepicker
     md.initFormExtendedDatetimepickers();
 
-    function initCharts(id, val, time) {
-      const labels = time;
+    function initCharts(tmData, time) {
+      const clickableLines={
+        id: 'clickableLines',
+        afterEvent(chart, evt, activeEls){
+          if (evt.event.type=='click'){
+            clickFlag = !clickFlag;
+            if (clickFlag){
+              clickIndex = chart.tooltip._active[0].index;
+              x = chart.tooltip._active[0].element.x;
+              yAxis = chart.scales.y;
+              for (const chart of ac) {
+                let title = chart.options.plugins.title.text;
+                let splitterTitle = title.split('|');
+                splitterTitle[1] = '| Выбр.: ' + chart.data.datasets[0].data[clickIndex].toFixed(3);
+                chart.options.plugins.title.text = splitterTitle.join('');
+                chart.update();
+              }
+            }else {
+              for (const chart of ac) {
+                let title = chart.options.plugins.title.text;
+                let splitterTitle = title.split('|');
+                splitterTitle[1] = '| ';
+                chart.options.plugins.title.text = splitterTitle.join('');
+                chart.update();
+              }
+            }
+          }
+          // console.log(chart.tooltip._active[0].element.parsed);
+          if (clickFlag){
+            setTimeout(()=>{
+              for (let i = 0; clickFlag&&(i < ac.length); i++) {
+                let ctx = ac[i].ctx;
+                ctx.restore();
+                ctx.beginPath();
+                ctx.lineWidths = 1;
+                // ctx.setLineDash([6,6]);
+                ctx.strokeStyle = 'rgba(0, 0, 255, 1)'
+                ctx.moveTo(x, yAxis.top);
+                ctx.lineTo(x, yAxis.bottom);
+                ctx.stroke();
+                ctx.save();
+              }
+              // for (const chart of ac) {
+              //   let ctx = chart.ctx;
+              //   ctx.restore();
+              //   ctx.beginPath();
+              //   ctx.lineWidths = 1;
+              //   // ctx.setLineDash([6,6]);
+              //   ctx.strokeStyle = 'rgba(0, 0, 255, 1)'
+              //   ctx.moveTo(x, yAxis.top);
+              //   ctx.lineTo(x, yAxis.bottom);
+              //   ctx.stroke();
+              //   ctx.save();
+              // }
+            },500);
+          }
+          // const { ctx, chartArea:{top,bottom} } = chart;
+        }
+      };
 
+      const labels = time;
       const data = {
         labels: labels,
         datasets: [{
-          // label: 'My First dataset',
           backgroundColor: 'rgb(255, 99, 132)',
           borderColor: 'rgb(255, 99, 132)',
-          data: val,
+          data: tmData.val,
           pointRadius: 0,
         }]
       };
-
       const config = {
         type: 'line',
         data: data,
@@ -246,18 +288,49 @@ The above copyright notice and this permission notice shall be included in all c
               display: false,
             },
             title: {
-              display: false,
-              text: (ctx) => 'Tooltip position mode: ' + ctx.chart.options.plugins.tooltip.position,
+              display: true,
+              text: (ctx) => tmData.HM + ' - ' + tmData.name + ' | ',
             },
-          }
-        }
+
+          },
+          // onClick: (e, activeEls) => {
+          //   let datasetIndex = activeEls[0].datasetIndex;
+          //   let dataIndex = activeEls[0].index;
+          //   let datasetLabel = e.chart.data.datasets[datasetIndex].label;
+          //   let value = e.chart.data.datasets[datasetIndex].data[dataIndex];
+          //   let label = e.chart.data.labels[dataIndex];
+          //   console.log("In click", datasetLabel, label, value);
+          //
+          //   // console.log(e);
+          //   const canvasPosition = Chart.helpers.getRelativePosition(e, myChart);
+          //   let yValue = myChart.scales.y.getValueForPixel(canvasPosition.y);
+          //   let ctx = e.chart.ctx;
+          //   ctx.restore();
+          //   ctx.beginPath();
+          //   ctx.lineWidths = 1;
+          //   ctx.strokeStyle = 'rgba(102, 102, 102, 0.2)'
+          //   ctx.moveTo(0, yValue);
+          //
+          //   ctx.lineTo(500, yValue);
+          //   ctx.stroke();
+          //   ctx.save();
+          // }
+        },
+        plugins: [clickableLines]
       };
 
       const myChart = new Chart(
-              document.getElementById(id),
+              document.getElementById(tmData.chartId),
               config
       );
+      ac.push(myChart);
     }
+
+    function fun() {
+
+
+    }
+
   </script>
 
 </body>

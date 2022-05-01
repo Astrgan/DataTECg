@@ -1,16 +1,11 @@
 <th:div  th:fragment="fragmenCard(id, HM, name)" class="card">
     <div class="card-header card-header-icon card-header-info">
-<!--        <div class="card-icon">-->
-<!--            <i class="material-icons">timeline</i>-->
-<!--        </div>-->
         <h4 class="card-title">
             <span th:text="${HM}"></span>
             <small th:text="@{' - '+${name}}"></small>
         </h4>
     </div>
     <div class="card-body chart-container">
-<!--        <div th:id="${id}" class="ct-chart"></div>-->
-
         <canvas th:id="${id}"></canvas>
     </div>
 </th:div>

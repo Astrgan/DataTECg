@@ -1024,8 +1024,6 @@ pre code {
 
 .container-fluid {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -30102,6 +30100,21 @@ select.selectpicker {
 
 .bootstrap-datetimepicker-widget.dropdown-menu {
   width: auto;
+}
+
+.main-chart-container{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 100vh;
+}
+.chart-card{
+  flex-grow: 1;
+  background-color: white;
+  flex-basis: 100%;
+  min-height: 70px;
+  width: auto;
+  margin: 3px;
 }
 
 .timepicker-picker table td a span,

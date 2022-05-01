@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.dgk.DataTECg.repositorys.TMRepository;
 import ru.dgk.DataTECg.services.TMDataService;
+import ru.dgk.DataTECg.services.TMDataServiceDebug;
 
 import  java.time.LocalDate;
 import java.util.Map;
@@ -15,9 +16,9 @@ import java.util.Map;
 public class MainController {
 
     final TMRepository tmRepository;
-    final TMDataService tmDataService;
+    final TMDataServiceDebug tmDataService;
 
-    public MainController(TMRepository tmRepository, TMDataService tmDataService) {
+    public MainController(TMRepository tmRepository, TMDataServiceDebug tmDataService) {
         this.tmRepository = tmRepository;
         this.tmDataService = tmDataService;
     }
