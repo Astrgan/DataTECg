@@ -16,8 +16,6 @@
   <!-- CSS Files -->
   <link href="/assets/css/material-dashboard.css?v=2.2.2" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="/assets/css/chartist-plugin-tooltip.css" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-<!--  <link href="/assets/demo/demo.css" rel="stylesheet" />-->
 </head>
 
 <body class="">
@@ -82,12 +80,12 @@
   <script src="/assets/js/plugins/arrive.min.js"></script>
   <!-- Chartist JS -->
 <!--  <script src="/assets/js/plugins/chartist.min.js"></script>-->
-  <script src="/assets/js/plugins/chartist.min.js"></script>
+<!--  <script src="/assets/js/plugins/chartist.min.js"></script>-->
   <!--  Notifications Plugin    -->
   <script src="/assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/assets/js/material-dashboard.js?v=2.2.2" type="text/javascript"></script>
-  <script type="text/javascript" src="/assets/js/plugins/chartist-plugin-tooltip.js" /></script>
+<!--  <script type="text/javascript" src="/assets/js/plugins/chartist-plugin-tooltip.js" /></script>-->
   <script src="/assets/js/script.js"></script>
 
   <script th:inline="javascript">
@@ -104,6 +102,27 @@
     md.initFormExtendedDatetimepickers();
 
     function initCharts(tmData, time) {
+
+      const drawLines= {
+        id: 'drawLines',
+        afterDraw(chart, evt, activeEls) {
+          if (clickFlag){
+            for (let i = 0; clickFlag&&(i < ac.length); i++) {
+              let ctx = ac[i].ctx;
+              ctx.restore();
+              ctx.beginPath();
+              ctx.lineWidths = 1;
+              // ctx.setLineDash([6,6]);
+              ctx.strokeStyle = 'rgba(0, 0, 255, 1)'
+              ctx.moveTo(x, yAxis.top);
+              ctx.lineTo(x, yAxis.bottom);
+              ctx.stroke();
+              ctx.save();
+            }
+          }
+        }
+      };
+
       const clickableLines={
         id: 'clickableLines',
         afterEvent(chart, evt, activeEls){
@@ -130,36 +149,6 @@
               }
             }
           }
-          // console.log(chart.tooltip._active[0].element.parsed);
-          if (clickFlag){
-            setTimeout(()=>{
-              for (let i = 0; clickFlag&&(i < ac.length); i++) {
-                let ctx = ac[i].ctx;
-                ctx.restore();
-                ctx.beginPath();
-                ctx.lineWidths = 1;
-                // ctx.setLineDash([6,6]);
-                ctx.strokeStyle = 'rgba(0, 0, 255, 1)'
-                ctx.moveTo(x, yAxis.top);
-                ctx.lineTo(x, yAxis.bottom);
-                ctx.stroke();
-                ctx.save();
-              }
-              // for (const chart of ac) {
-              //   let ctx = chart.ctx;
-              //   ctx.restore();
-              //   ctx.beginPath();
-              //   ctx.lineWidths = 1;
-              //   // ctx.setLineDash([6,6]);
-              //   ctx.strokeStyle = 'rgba(0, 0, 255, 1)'
-              //   ctx.moveTo(x, yAxis.top);
-              //   ctx.lineTo(x, yAxis.bottom);
-              //   ctx.stroke();
-              //   ctx.save();
-              // }
-            },500);
-          }
-          // const { ctx, chartArea:{top,bottom} } = chart;
         }
       };
 
@@ -191,32 +180,9 @@
               display: true,
               text: (ctx) => tmData.HM + ' - ' + tmData.name + ' | ',
             },
-
           },
-          // onClick: (e, activeEls) => {
-          //   let datasetIndex = activeEls[0].datasetIndex;
-          //   let dataIndex = activeEls[0].index;
-          //   let datasetLabel = e.chart.data.datasets[datasetIndex].label;
-          //   let value = e.chart.data.datasets[datasetIndex].data[dataIndex];
-          //   let label = e.chart.data.labels[dataIndex];
-          //   console.log("In click", datasetLabel, label, value);
-          //
-          //   // console.log(e);
-          //   const canvasPosition = Chart.helpers.getRelativePosition(e, myChart);
-          //   let yValue = myChart.scales.y.getValueForPixel(canvasPosition.y);
-          //   let ctx = e.chart.ctx;
-          //   ctx.restore();
-          //   ctx.beginPath();
-          //   ctx.lineWidths = 1;
-          //   ctx.strokeStyle = 'rgba(102, 102, 102, 0.2)'
-          //   ctx.moveTo(0, yValue);
-          //
-          //   ctx.lineTo(500, yValue);
-          //   ctx.stroke();
-          //   ctx.save();
-          // }
         },
-        plugins: [clickableLines]
+        plugins: [clickableLines, drawLines]
       };
 
       const myChart = new Chart(
