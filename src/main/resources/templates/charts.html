@@ -135,16 +135,17 @@
               for (const chart of ac) {
                 let title = chart.options.plugins.title.text;
                 let splitterTitle = title.split('|');
-                splitterTitle[1] = '| Выбр.: ' + chart.data.datasets[0].data[clickIndex].toFixed(3);
-                chart.options.plugins.title.text = splitterTitle.join('');
+                splitterTitle[splitterTitle.length] = ' Выбр.: ' + chart.data.datasets[0].data[clickIndex].toFixed(3);
+                chart.options.plugins.title.text = splitterTitle.join('|');
                 chart.update();
               }
             }else {
               for (const chart of ac) {
                 let title = chart.options.plugins.title.text;
                 let splitterTitle = title.split('|');
-                splitterTitle[1] = '| ';
-                chart.options.plugins.title.text = splitterTitle.join('');
+                // splitterTitle[splitterTitle.length-1] = '';
+                splitterTitle.pop();
+                chart.options.plugins.title.text = splitterTitle.join('|');
                 chart.update();
               }
             }
@@ -178,7 +179,8 @@
             },
             title: {
               display: true,
-              text: (ctx) => tmData.HM + ' - ' + tmData.name + ' | ',
+              align: 'start',
+              text: (ctx) => tmData.HM + ' - ' + tmData.name + ' | min: ' + tmData.min.toFixed(3) +  ' | max: ' + tmData.max.toFixed(3)  + ' | ' ,
             },
           },
         },

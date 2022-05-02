@@ -9,14 +9,17 @@ public class TMData {
     public String HM;
     public ArrayList<Double> val = new ArrayList<>();
     public ArrayList <String> time = new ArrayList<>();
+    public double min, max;
 
-    public TMData(String name, String id, String cartId, String HM, ArrayList<Double> val, ArrayList<String> time) {
+    public TMData(String name, String id, String cartId, String HM, ArrayList<Double> val, ArrayList<String> time, double min, double max) {
         this.id = id;
         this.chartId = cartId;
         this.val = val;
         this.time = time;
         this.name = name;
         this.HM = HM;
+        this.min = min;
+        this.max = max;
     }
 
     public TMData() {

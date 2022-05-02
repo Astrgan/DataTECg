@@ -3,7 +3,7 @@ package ru.dgk.DataTECg.services;
 import org.springframework.stereotype.Service;
 import ru.dgk.DataTECg.entity.IDs;
 import ru.dgk.DataTECg.entity.TMData;
-
+import java.util.Collections;
 import java.util.*;
 
 @Service
@@ -19,7 +19,7 @@ public class TMDataServiceDebug {
             for (int j = 0; j < count; j++) {
                 val.add(( ((Math.random() * (80 - 10)) + 10)));
             }
-            tmDataset.add(new TMData(IDs.HM1CB.name,IDs.HM1CB.id+i,IDs.HM1CB.id+"_chart"+i,IDs.HM1CB.hm,val,time));
+            tmDataset.add(new TMData(IDs.HM1CB.name,IDs.HM1CB.id+i,IDs.HM1CB.id+"_chart"+i,IDs.HM1CB.hm,val,time, Collections.min(val), Collections.max(val)));
         }
 
         for (int i = 0; i < count; i++) time.add(i+":00");

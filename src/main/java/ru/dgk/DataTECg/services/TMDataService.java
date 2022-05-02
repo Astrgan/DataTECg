@@ -151,6 +151,10 @@ public class TMDataService {
                 String hour = dateTime.substring(a, b+3);
                 time.add(hour);
             }
+            for (var tmData : tmDataset) {
+                tmData.min = Collections.min(tmData.val);
+                tmData.max = Collections.max(tmData.val);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
