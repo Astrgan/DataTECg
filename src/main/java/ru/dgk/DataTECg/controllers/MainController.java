@@ -16,9 +16,9 @@ import java.util.Map;
 public class MainController {
 
     final TMRepository tmRepository;
-    final TMDataServiceDebug tmDataService;
+    final TMDataService tmDataService;
 
-    public MainController(TMRepository tmRepository, TMDataServiceDebug tmDataService) {
+    public MainController(TMRepository tmRepository, TMDataService tmDataService) {
         this.tmRepository = tmRepository;
         this.tmDataService = tmDataService;
     }
@@ -33,6 +33,7 @@ public class MainController {
         }
 
         model.addAttribute("HMs", tmDataService.getHM());
+        model.addAttribute("localDate", LocalDate.now());
 
 //        model.addAllAttributes(tmDataService.getData());
         return "charts";

@@ -27,7 +27,7 @@
                         </div>
                         <div class="card-body ">
                             <div class="form-group">
-                                <input name="date" type="text" class="form-control datepicker" value="28.04.2022">
+                                <input name="date" type="text" class="form-control datepicker" th:value="${#temporals.format(localDate, 'dd.MM.YYYY')}">
                             </div>
                         </div>
                     </div>
