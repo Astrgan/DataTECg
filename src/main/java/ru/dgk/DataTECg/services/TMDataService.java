@@ -19,51 +19,22 @@ public class TMDataService {
     public TMDataService(HikariDataSource  dataSource) {
         this.dataSource = dataSource;
     }
-/*
-    public Map<String, Object> getData(){
-        String oldHour = "00";
-        ArrayList <Double> val = new ArrayList();
-        ArrayList <String> time = new ArrayList();
-
-        try(Connection conn = dataSource.getConnection();
-            PreparedStatement st = conn.prepareStatement(SQL)) {
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()){
-
-                val.add(rs.getDouble("VAL"));
-                String dateTime = rs.getString("datetime");
-                int b = dateTime.indexOf(':');
-                int a = b-2;
-                String hour = dateTime.substring(a, b);
-
-
-                if(hour.equals(oldHour)){
-                    time.add("");
-                }else{
-                    time.add(hour);
-                    oldHour = hour;
-                }
-
-//                System.out.println("hour: "+ hour + " VAL: "+ rs.getString("VAL"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Map<String, Object> attributes = new HashMap();
-        attributes.put("val", val);
-        attributes.put("time", time);
-        return attributes;
-    }
-*/
 
     public ArrayList<EnumSet<IDs>> getHM(){
         ArrayList<EnumSet<IDs>> list = new ArrayList<>();
 
+        list.add(EnumSet.range(IDs.GASС,IDs.GASP ));
+
         list.add(EnumSet.range(IDs.HM1MAKEUP,IDs.HM1GB ));
         list.add(EnumSet.range(IDs.HM3MAKEUP,IDs.HM3GB ));
         list.add(EnumSet.range(IDs.HM7MAKEUP,IDs.HM7GB ));
+        list.add(EnumSet.range(IDs.HM8MAKEUP,IDs.HM8GB ));
+        list.add(EnumSet.range(IDs.HM9MAKEUP,IDs.HM9GB ));
         list.add(EnumSet.range(IDs.HM10MAKEUP,IDs.HM10GB ));
+
+        list.add(EnumSet.range(IDs.PARP,IDs.PARG ));
+        list.add(EnumSet.range(IDs.GVSP,IDs.GVSG ));
+        list.add(EnumSet.range(IDs.SNPC,IDs.SNPARC ));
         return list;
     }
 
