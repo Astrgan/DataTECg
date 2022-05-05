@@ -89,14 +89,67 @@
   <script src="/assets/js/script.js"></script>
 
   <script th:inline="javascript">
-    let ac = [];
+    let aChart = [];
     let clickFlag = false;
-    let yAxis, x, clickIndex;
+    let yAxis, x, clickIndex, datePicker;
+    let params = new FormData();
+
     $(document).ready(function() {
+      datePicker = document.getElementById('datepicker');
+      params.set('date', datePicker.value);
+      if(localStorage.getItem("params") !== null){
+        let lStorage = JSON.parse(localStorage.params);
+        datePicker.value = lStorage.date;
+        for (const id in lStorage) {
+          let el = document.getElementById(id);
+          if(el !== null){
+            el.checked = true;
+            params.set(el.id, el.checked);
+          }
+        }
+      }
+
+      document.getElementById('sendButton').addEventListener('click', ev => {
+        params.set('date', datePicker.value);
+        localStorage.setItem('params', JSON.stringify(Object.fromEntries(params)));
+        window.location.href = window.location.origin +
+                '?' + new URLSearchParams(params).toString();
+      });
+
+      /* Растовляем галочки из localStorage */
+      for (let el of document.getElementsByClassName('hm_checkbox')) {
+        el.addEventListener('click', evt => {
+          if (el.checked) {
+            params.set(el.id, el.checked);
+          } else {
+            params.delete(el.id);
+          }
+        })
+      }
+
+      /* считаем галочки и отображаем перед именем теплотрассы (HM) */
+      for (let el of document.getElementsByClassName('li_hm')){
+        let nameHM = el.querySelector('span');
+        let count = countChecked(el);
+        if (count>0) nameHM.textContent = `( ${count} ) ${nameHM.textContent}`;
+
+      }
+
+      function countChecked(list) {
+        let count = 0;
+        for(const el of list.querySelectorAll('li>a>input')){
+          if (el.checked) count++;
+        }
+        return count;
+      }
+
       for (const data of [[${tmDataset}]]) {
         initCharts(data, [[${time}]]);
       }
-    });
+
+    })
+
+
 
     // initialise Datetimepicker
     md.initFormExtendedDatetimepickers();
@@ -107,8 +160,8 @@
         id: 'drawLines',
         afterDraw(chart, evt, activeEls) {
           if (clickFlag){
-            for (let i = 0; clickFlag&&(i < ac.length); i++) {
-              let ctx = ac[i].ctx;
+            for (let i = 0; clickFlag&&(i < aChart.length); i++) {
+              let ctx = aChart[i].ctx;
               ctx.restore();
               ctx.beginPath();
               ctx.lineWidths = 1;
@@ -132,7 +185,7 @@
               clickIndex = chart.tooltip._active[0].index;
               x = chart.tooltip._active[0].element.x;
               yAxis = chart.scales.y;
-              for (const chart of ac) {
+              for (const chart of aChart) {
                 let title = chart.options.plugins.title.text;
                 let splitterTitle = title.split('|');
                 splitterTitle[splitterTitle.length] = ' Выбр.: ' + chart.data.datasets[0].data[clickIndex].toFixed(3);
@@ -140,7 +193,7 @@
                 chart.update();
               }
             }else {
-              for (const chart of ac) {
+              for (const chart of aChart) {
                 let title = chart.options.plugins.title.text;
                 let splitterTitle = title.split('|');
                 // splitterTitle[splitterTitle.length-1] = '';
@@ -180,7 +233,7 @@
             title: {
               display: true,
               align: 'start',
-              text: (ctx) => tmData.HM + ' - ' + tmData.name + ' | min: ' + tmData.min.toFixed(3) +  ' | max: ' + tmData.max.toFixed(3) + ' ',
+              text: (ctx) => tmData.HM + ' - ' + tmData.name + ' | min: ' + tmData.min.toFixed(3) +  ' | max: ' + tmData.max.toFixed(3) + ' | среднее: ' + tmData.average.toFixed(3) + ' ',
             },
           },
         },
@@ -191,7 +244,7 @@
               document.getElementById(tmData.chartId),
               config
       );
-      ac.push(myChart);
+      aChart.push(myChart);
     }
 
     function fun() {

@@ -27895,6 +27895,10 @@ select.selectpicker {
   padding: 0px !important;
 }
 
+.shadow-text{
+  text-shadow: 0 0 10px blue,0 0 20px blue,0 0 30px blue,0 0 40px blue;
+}
+
 @media (min-width: 992px) {
   .main-panel .navbar .navbar-collapse .navbar-nav .nav-item .nav-link p {
     display: none;

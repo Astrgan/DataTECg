@@ -2,7 +2,7 @@ package ru.dgk.DataTECg.entity;
 
 public enum IDs {
 
-    GASС("6303773", "Расход", "gas", "ГАЗ"),
+    GASC("6303773", "Расход", "gas", "ГАЗ"),
     GAST("6303772", "Температура", "gas", "ГАЗ"),
     GASP("6303774", "Давление", "gas", "ГАЗ"),
 

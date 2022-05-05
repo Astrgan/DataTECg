@@ -9,9 +9,9 @@ public class TMData {
     public String HM;
     public ArrayList<Double> val = new ArrayList<>();
     public ArrayList <String> time = new ArrayList<>();
-    public double min, max;
+    public double min, max, average ;
 
-    public TMData(String name, String id, String cartId, String HM, ArrayList<Double> val, ArrayList<String> time, double min, double max) {
+    public TMData(String name, String id, String cartId, String HM, ArrayList<Double> val, ArrayList<String> time, double min, double max, double average) {
         this.id = id;
         this.chartId = cartId;
         this.val = val;
@@ -20,6 +20,7 @@ public class TMData {
         this.HM = HM;
         this.min = min;
         this.max = max;
+        this.average = average;
     }
 
     public TMData() {

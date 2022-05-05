@@ -19,7 +19,7 @@ public class TMDataServiceDebug {
             for (int j = 0; j < count; j++) {
                 val.add(( ((Math.random() * (80 - 10)) + 10)));
             }
-            tmDataset.add(new TMData(IDs.HM1CB.name,IDs.HM1CB.id+i,IDs.HM1CB.id+"_chart"+i,IDs.HM1CB.hm,val,time, Collections.min(val), Collections.max(val)));
+            tmDataset.add(new TMData(IDs.HM1CB.name,IDs.HM1CB.id+i,IDs.HM1CB.id+"_chart"+i,IDs.HM1CB.hm,val,time, Collections.min(val), Collections.max(val), 5));
         }
 
         for (int i = 0; i < count; i++) time.add(i+":00");

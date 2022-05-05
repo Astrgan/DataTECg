@@ -23,7 +23,7 @@ public class TMDataService {
     public ArrayList<EnumSet<IDs>> getHM(){
         ArrayList<EnumSet<IDs>> list = new ArrayList<>();
 
-        list.add(EnumSet.range(IDs.GASС,IDs.GASP ));
+        list.add(EnumSet.range(IDs.GASC,IDs.GASP ));
 
         list.add(EnumSet.range(IDs.HM1MAKEUP,IDs.HM1GB ));
         list.add(EnumSet.range(IDs.HM3MAKEUP,IDs.HM3GB ));
@@ -125,6 +125,11 @@ public class TMDataService {
             for (var tmData : tmDataset) {
                 tmData.min = Collections.min(tmData.val);
                 tmData.max = Collections.max(tmData.val);
+                var average = tmData.val
+                        .stream()
+                        .mapToDouble(a -> a)
+                        .average();
+                tmData.average = average.isPresent() ? average.getAsDouble() : 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
