@@ -107,7 +107,8 @@
             params.set(el.id, el.checked);
           }
         }
-      }
+      }// if localStorage
+      document.getElementById('reset').addEventListener('click', reset);
 
       document.getElementById('sendButton').addEventListener('click', ev => {
         params.set('date', datePicker.value);
@@ -132,7 +133,6 @@
         let nameHM = el.querySelector('span');
         let count = countChecked(el);
         if (count>0) nameHM.textContent = `( ${count} ) ${nameHM.textContent}`;
-
       }
 
       function countChecked(list) {
@@ -141,6 +141,23 @@
           if (el.checked) count++;
         }
         return count;
+      }
+
+      function reset() {
+
+        for (let el of document.getElementsByClassName('li_hm')){
+          let nameHM = el.querySelector('span');
+          let count = countChecked(el);
+          if (count>0) nameHM.textContent = nameHM.textContent.split(')')[1];
+        }
+
+        for (const el of document.getElementsByClassName('hm_checkbox')) {
+          el.checked = false;
+        }
+        params = new FormData();
+        params.set('date', datePicker.value);
+
+
       }
 
       for (const data of [[${tmDataset}]]) {
