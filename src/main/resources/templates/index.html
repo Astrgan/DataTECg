@@ -10,85 +10,49 @@
     Комсомольская ТЭЦ-2
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- bootstrap datepicker CDN Link -->
+  <link rel='stylesheet' href='/assets/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='/assets/css/bootstrap-icons.css'>
+  <!-- Tempus Dominus Styles -->
+  <link href="/assets/css/tempus-dominus.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="/assets/fontawesome/css/all.css"/>
+
+
+
   <!-- CSS Files -->
-  <link href="/assets/css/material-dashboard.css?v=2.2.2" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="/assets/css/chartist-plugin-tooltip.css" />
+  <link href="/assets/css/sidebar_style.css" rel="stylesheet" />
+
 </head>
 
-<body class="">
-  <div class="wrapper ">
-    <!-- sidebar -->
-    <div th:insert="~{fragments\sidebar :: fragmenSidebar()}"/>
-    <!-- End sidebar -->
-    <div class="main-panel">
-      <!-- Navbar -->
-<!--      <div th:insert="~{fragments\navbar :: fragmenNavbar()}"/>-->
-      <!-- End Navbar -->
-      <div class="content">
-        <div class="container-fluid">
-          <div class="container-fluid">
+<body class="img_sb">
 
-            <div class="main-chart-container">
-              <div th:each="data: ${tmDataset}" class="chart-card">
+    <div class="" th:replace="~{fragments\sidebar2 :: fragmentSidebar()}"/>
+
+    <section class="home-section">
+        <div class="main-chart-container">
+            <div th:each="data: ${tmDataset}" class="chart-card">
                 <canvas th:id="${data.chartId}"></canvas>
-              </div>
             </div>
-          </div> <!--container-fluid-->
-        </div> <!--container-fluid-->
-      </div> <!--content-->
-<!--      <div th:insert="~{fragments\footer :: fragmentFooter}"/>-->
-    </div>
-  </div>
+        </div>
+    </section>
 
-  </div>
-  <!--   Core JS Files   -->
+    <script src="/assets/js/core/popper.min.js"
+            crossorigin="anonymous"></script>
+    <!-- Tempus Dominus JavaScript -->
+    <script src="/assets/js/core/tempus-dominus.js" crossorigin="anonymous"></script>
+
+    <!--   Core JS Files   -->
+
   <script src="/assets/js/core/jquery.min.js"></script>
   <script src="/assets/js/core/chart.min.js"></script>
-  <script src="/assets/js/core/popper.min.js"></script>
-  <script src="/assets/js/core/bootstrap-material-design.min.js"></script>
-  <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <!-- Plugin for the momentJs  -->
-  <script src="/assets/js/plugins/moment-with-locales.js"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="/assets/js/plugins/sweetalert2.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="/assets/js/plugins/jquery.validate.min.js"></script>
-  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-  <script src="/assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="/assets/js/plugins/bootstrap-selectpicker.js"></script>
-  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-  <script src="/assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
-  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
-<!--  <script src="/assets/js/plugins/jquery.dataTables.min.js"></script>-->
-  <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
-  <script src="/assets/js/plugins/bootstrap-tagsinput.js"></script>
-  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-  <script src="/assets/js/plugins/jasny-bootstrap.min.js"></script>
-  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
-  <script src="/assets/js/plugins/fullcalendar.min.js"></script>
-  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
-  <script src="/assets/js/plugins/jquery-jvectormap.js"></script>
-  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="/assets/js/plugins/nouislider.min.js"></script>
-  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-  <!-- Library for adding dinamically elements -->
-  <script src="/assets/js/plugins/arrive.min.js"></script>
-  <!-- Chartist JS -->
-<!--  <script src="/assets/js/plugins/chartist.min.js"></script>-->
-<!--  <script src="/assets/js/plugins/chartist.min.js"></script>-->
-  <!--  Notifications Plugin    -->
-  <script src="/assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="/assets/js/material-dashboard.js?v=2.2.2" type="text/javascript"></script>
-<!--  <script type="text/javascript" src="/assets/js/plugins/chartist-plugin-tooltip.js" /></script>-->
-  <script src="/assets/js/script.js"></script>
   <script src="/assets/js/core/chartjs-plugin-zoom.min.js"></script>
   <script src="/assets/js/core/hammerjs@2.0.8"></script>
+
+  <script src="/assets/js/sidebar_script.js"></script>
+
+
 
   <script th:inline="javascript">
     let aChart = [];
@@ -97,7 +61,9 @@
     let params = new FormData();
 
     $(document).ready(function() {
-      datePicker = document.getElementById('datepicker');
+      let dp = initDatepicker();
+
+      datePicker = document.getElementById('datetimepicker');
       params.set('date', datePicker.value);
       if(localStorage.getItem("params") !== null){
         let lStorage = JSON.parse(localStorage.params);
@@ -110,6 +76,11 @@
           }
         }
       }// if localStorage
+        // let m = dp.dates._dates[0].month;
+        // let d = dp.dates._dates[0].day;
+        //
+        // dp.dates._dates[0].month=--m;
+
       document.getElementById('reset').addEventListener('click', reset);
 
       document.getElementById('sendButton').addEventListener('click', ev => {
@@ -139,7 +110,7 @@
 
       function countChecked(list) {
         let count = 0;
-        for(const el of list.querySelectorAll('li>a>input')){
+        for(const el of list.querySelectorAll('input')){
           if (el.checked) count++;
         }
         return count;
@@ -168,10 +139,6 @@
 
     })
 
-
-
-    // initialise Datetimepicker
-    md.initFormExtendedDatetimepickers();
 
     function initCharts(tmData, time) {
 
@@ -258,6 +225,7 @@
               zoom: {
                 wheel: {
                   enabled: true,
+                  modifierKey: 'ctrl'
                 },
                 pinch: {
                   enabled: true
@@ -277,8 +245,45 @@
       aChart.push(myChart);
     }
 
-    function fun() {
-
+    function initDatepicker() {
+       return  new tempusDominus.TempusDominus(document.getElementById('datetimepicker'), {
+            display: {
+                components: {
+                    clock: false,
+                }
+            },
+            localization: {
+                today: 'Перейти сегодня',
+                clear: 'Очистить выделение',
+                close: 'Закрыть сборщик',
+                selectMonth: 'Выбрать месяц',
+                previousMonth: 'Предыдущий месяц',
+                nextMonth: 'В следующем месяце',
+                selectYear: 'Выбрать год',
+                previousYear: 'Предыдущий год',
+                nextYear: 'В следующем году',
+                selectDecade: 'Выбрать десятилетие',
+                previousDecade: 'Предыдущее десятилетие',
+                nextDecade: 'Следующее десятилетие',
+                previousCentury: 'Предыдущий век',
+                nextCentury: 'Следующий век',
+                pickHour: 'Выберите час',
+                incrementHour: 'Время увеличения',
+                decrementHour: 'Уменьшить час',
+                pickMinute: 'Выбрать минуту',
+                incrementMinute: 'Минута приращения',
+                decrementMinute: 'Уменьшить минуту',
+                pickSecond: 'Выбрать второй',
+                incrementSecond: 'Увеличение секунды',
+                decrementSecond: 'Уменьшение секунды',
+                toggleMeridiem: 'Переключить период',
+                selectTime: 'Выбрать время',
+                selectDate: 'Выбрать дату',
+                dayViewHeaderFormat: { month: 'long', year: '2-digit' },
+                locale: 'ru',
+                startOfTheWeek: 1
+            }
+        });
 
     }
 

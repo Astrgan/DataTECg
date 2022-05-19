@@ -1,0 +1,57 @@
+<th:div th:fragment="fragmentSidebar()" class="sidebar">
+    <div class="logo-details">
+        <i id="chevron" class='bx bx-arrow-back'></i>
+        <span class="logo_name">КТЭЦ-2</span>
+    </div>
+
+    <div id="btn_group" class="btn_group">
+        <button type="button" id="reset" class="btn btn_group-btn btn-danger">Сбросить</button>
+        <button type="button" id="sendButton" class="btn btn_group-btn btn-success">Обновить</button>
+    </div>
+
+
+    <ul class="nav-links">
+        <li class="list">
+            <div class="iocn-link list__head">
+                <a href="#">
+<!--                    <i class='bx bx-collection' ></i>-->
+<!--                    <i class='bx bi-calendar-check arrow' ></i>-->
+                    <i class="fa-solid fa-calendar arrow"></i>
+                    <span class="link_name">Установка даты</span>
+                </a>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Установка даты</a></li>
+                <li>
+                    <input
+                            id='datetimepicker'
+                            type='text'
+                            class='form-control'
+                            data-td-target='#datetimepicker'
+
+                    />
+                <!--th:value="${#temporals.format(localDate, 'dd.MM.YYYY')}"-->
+                </li>
+            </ul>
+        </li>
+
+        <li th:each="HM: ${HMs}" class="list li_hm">
+            <div class="iocn-link list__head">
+                <a href="#">
+<!--                    <i class='bx bx-collection' ></i>-->
+                    <i class='bx bxs-chevron-down arrow' ></i>
+                    <span class="link_name" th:text="${HM.toArray()[0].hm}"></span>
+                </a>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#" th:text="${HM.toArray()[0].hm}"></a></li>
+                <li th:each="paramHM: ${HM}" class="sub-menu-item">
+                    <input class="hm_checkbox" th:id="${paramHM}" type="checkbox" name="">
+                    <label th:for="${paramHM}">
+                        <span class="cb__name" th:text="${paramHM.getName()}"></span>
+                    </label>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</th:div>

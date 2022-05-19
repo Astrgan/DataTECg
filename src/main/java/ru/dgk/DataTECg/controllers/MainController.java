@@ -36,6 +36,6 @@ public class MainController {
         model.addAttribute("localDate", LocalDate.now());
 
 //        model.addAllAttributes(tmDataService.getData());
-        return "charts";
+        return "index";
     }
 }
