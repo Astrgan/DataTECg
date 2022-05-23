@@ -9,6 +9,8 @@ import ru.dgk.DataTECg.entity.TMData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -39,6 +41,8 @@ public class TMDataService {
     }
 
     public Map<String, ?> getDatasets(String date, Map<String, String> params) {
+        String timeStart = "0:00:00";
+        String timeEnd = "23:59:00";
         Map<String, Object> attributes = new HashMap();
         StringBuffer sb = new StringBuffer();
         var paramArray = params.keySet().toArray();
@@ -81,12 +85,16 @@ public class TMDataService {
         sb.append(firstID);
         sb.append(".time1970 > TO_DT1970(TO_DATE ('");
         sb.append(date);
-        sb.append(" 0:00:00', 'DD.MM.YYYY HH24:MI:SS'))");
+        sb.append(" ");
+        sb.append(timeStart);
+        sb.append("', 'DD.MM.YYYY HH24:MI:SS'))");
         sb.append("AND EL010_");
         sb.append(firstID);
         sb.append(".time1970 < TO_DT1970(TO_DATE ('");
         sb.append(date);
-        sb.append(" 23:00:00', 'DD.MM.YYYY HH24:MI:SS'))");
+        sb.append(" ");
+        sb.append(timeEnd);
+        sb.append("', 'DD.MM.YYYY HH24:MI:SS'))");
         sb.append("ORDER BY t");
 
         System.out.println(sb.toString());
@@ -131,6 +139,24 @@ public class TMDataService {
                         .average();
                 tmData.average = average.isPresent() ? average.getAsDouble() : 0;
             }
+
+            LocalDateTime dateTimeEnd = LocalDateTime.parse(date+" "+timeEnd,
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+
+            LocalDateTime dateTimeLast = LocalDateTime.parse(date+" "+time.get(time.size()-1),
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+            dateTimeEnd = dateTimeEnd.minusMinutes(3);
+
+            DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
+
+            while (dateTimeLast.isBefore(dateTimeEnd)){
+                dateTimeLast = dateTimeLast.plusMinutes(3);
+                time.add(dateTimeLast.format(formatterTime));
+                for (var tmData : tmDataset) {
+                    tmData.val.add(0.0);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
