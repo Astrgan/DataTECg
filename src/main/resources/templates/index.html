@@ -10,7 +10,6 @@
     Комсомольская ТЭЦ-2
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- bootstrap datepicker CDN Link -->
   <link rel='stylesheet' href='/assets/css/bootstrap.min.css'>
@@ -38,8 +37,9 @@
         </div>
     </section>
 
-    <script src="/assets/js/core/popper.min.js"
-            crossorigin="anonymous"></script>
+    <script src="/assets/js/core/popper.min.js" crossorigin="anonymous"></script>
+    <script src="/assets/js/core/moment.min.js" crossorigin="anonymous"></script>
+
     <!-- Tempus Dominus JavaScript -->
     <script src="/assets/js/core/tempus-dominus.js" crossorigin="anonymous"></script>
 
@@ -57,17 +57,28 @@
   <script th:inline="javascript">
     let aChart = [];
     let clickFlag = false;
-    let yAxis, x, clickIndex, datePicker;
+    let yAxis, x, clickIndex, datePicker, datetimepickerEndTime;
     let params = new FormData();
 
     $(document).ready(function() {
-      let dp = initDatepicker();
+      let dp = initDatepicker(true, true, 'datetimepicker');
+      let dpEnd = initDatepicker(false, true, 'datetimepickerEndTime');
 
       datePicker = document.getElementById('datetimepicker');
+      datetimepickerEndTime = document.getElementById('datetimepickerEndTime');
       params.set('date', datePicker.value);
+      params.set('timeEnd', datetimepickerEndTime.value);
       if(localStorage.getItem("params") !== null){
         let lStorage = JSON.parse(localStorage.params);
         datePicker.value = lStorage.date;
+          datetimepickerEndTime.value = lStorage.timeEnd;
+
+          let DateTimeVal = moment(datePicker.value, 'DD/MM/YYYY, HH:mm').toDate();
+          dp.dates.setValue(tempusDominus.DateTime.convert(DateTimeVal));
+
+          let DateTimeValEnd = moment(datetimepickerEndTime.value, 'HH:mm').toDate();
+          dpEnd.dates.setValue(tempusDominus.DateTime.convert(DateTimeValEnd));
+
         for (const id in lStorage) {
           let el = document.getElementById(id);
           if(el !== null){
@@ -85,6 +96,7 @@
 
       document.getElementById('sendButton').addEventListener('click', ev => {
         params.set('date', datePicker.value);
+        params.set('timeEnd', datetimepickerEndTime.value);
         localStorage.setItem('params', JSON.stringify(Object.fromEntries(params)));
         window.location.href = window.location.origin +
                 '?' + new URLSearchParams(params).toString();
@@ -245,11 +257,13 @@
       aChart.push(myChart);
     }
 
-    function initDatepicker() {
-       return  new tempusDominus.TempusDominus(document.getElementById('datetimepicker'), {
+    function initDatepicker(calendar, clock, id) {
+       return  new tempusDominus.TempusDominus(document.getElementById(id), {
             display: {
                 components: {
-                    clock: false,
+                    calendar: calendar,
+                    clock: clock,
+                    useTwentyfourHour: true,
                 }
             },
             localization: {
@@ -284,6 +298,7 @@
                 startOfTheWeek: 1
             }
         });
+
 
     }
 

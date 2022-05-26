@@ -40,20 +40,22 @@ public class TMDataService {
         return list;
     }
 
-    public Map<String, ?> getDatasets(String date, Map<String, String> params) {
-        String timeStart = "0:00:00";
-        String timeEnd = "23:59:00";
+    public Map<String, ?> getDatasets(String dateTimeString, String timeEndString, Map<String, String> params) {
+        var dateArray = dateTimeString.split(",");
+        var date = dateArray[0];
+        String timeStart = dateArray[1] + ":00";
+        String timeEnd = timeEndString + ":00";
         Map<String, Object> attributes = new HashMap();
         StringBuffer sb = new StringBuffer();
         var paramArray = params.keySet().toArray();
-        var firstID = IDs.valueOf((String) paramArray[1]).id;
+        var firstID = IDs.valueOf((String) paramArray[2]).id;
 
         sb.append("SELECT  FROM_DT1970(EL010_");
         sb.append(firstID);
         sb.append(".time1970) as t");
 
 
-        for (int i = 1; i < paramArray.length; i++) {
+        for (int i = 2; i < paramArray.length; i++) {
             sb.append(", ");
             sb.append("EL010_");
             sb.append(IDs.valueOf((String) paramArray[i]).id);
@@ -67,7 +69,7 @@ public class TMDataService {
         sb.append(" EL010_");
         sb.append(firstID);
 
-        for (int i = 2; i < paramArray.length; i++) {
+        for (int i = 3; i < paramArray.length; i++) {
             String id = IDs.valueOf((String) paramArray[i]).id;
             sb.append(" FULL OUTER JOIN RSDU2ELARH.EL010_");
             sb.append(id);

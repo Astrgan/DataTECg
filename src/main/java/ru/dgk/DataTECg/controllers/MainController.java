@@ -24,12 +24,12 @@ public class MainController {
     }
 
     @GetMapping(path = "/")
-    public String mainPage(Model model, @RequestParam(required = false) String date, @RequestParam Map<String,String> allParams) {
+    public String mainPage(Model model, @RequestParam(required = false) String date,@RequestParam(required = false) String timeEnd, @RequestParam Map<String,String> allParams) {
         System.out.println("date param:"+date);
         System.out.println(allParams);
         if(allParams.size()>1){
             allParams.keySet().forEach(k -> System.out.println((k + ":" + allParams.get(k))));
-            model.addAllAttributes(tmDataService.getDatasets(date, allParams));
+            model.addAllAttributes(tmDataService.getDatasets(date, timeEnd, allParams));
         }
 
         model.addAttribute("HMs", tmDataService.getHM());
