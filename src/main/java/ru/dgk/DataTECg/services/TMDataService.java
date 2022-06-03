@@ -85,14 +85,14 @@ public class TMDataService {
 
         sb.append(" WHERE EL010_");
         sb.append(firstID);
-        sb.append(".time1970 > TO_DT1970(TO_DATE ('");
+        sb.append(".time1970 >= TO_DT1970(TO_DATE ('");
         sb.append(date);
         sb.append(" ");
         sb.append(timeStart);
         sb.append("', 'DD.MM.YYYY HH24:MI:SS'))");
         sb.append("AND EL010_");
         sb.append(firstID);
-        sb.append(".time1970 < TO_DT1970(TO_DATE ('");
+        sb.append(".time1970 <= TO_DT1970(TO_DATE ('");
         sb.append(date);
         sb.append(" ");
         sb.append(timeEnd);
